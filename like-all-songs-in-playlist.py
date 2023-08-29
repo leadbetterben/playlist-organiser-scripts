@@ -1,5 +1,5 @@
 import spotipy
-from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyOAuth
 from dotenv import dotenv_values
 
 scope = 'playlist-read-private'
@@ -23,3 +23,15 @@ for i, item in enumerate(results['items']):
 playlist_num = int(input("Which number playlist would you like to save the songs of? ")) - 1
 
 playlist_id = results['items'][playlist_num]['id']
+
+def show_tracks(results):
+    for item in results['items']:
+        track = item['track']
+        print("%32.32s %s" % (track['artists'][0]['name'], track['name']))
+
+results = sp.playlist_items(playlist_id)
+show_tracks(results)
+
+while (results['next']):
+    results = sp.next(results)
+    show_tracks(results)
