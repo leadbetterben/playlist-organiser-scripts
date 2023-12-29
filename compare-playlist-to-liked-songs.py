@@ -2,8 +2,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from dotenv import dotenv_values
 
-# TODO: Should scope change?
-scope = 'playlist-read-private,user-library-modify'
+scope = 'playlist-read-private'
 
 env = ".env.local"
 config = dotenv_values(env)
@@ -41,6 +40,7 @@ while (results['next']):
     results = sp.next(results)
     playlist_songs_ids += [item["track"]["id"] for item in results["items"]]
 
+# Only if trying to compare a playlist which should match the liked songs
 only_liked_songs = list(set(liked_songs_ids).difference(playlist_songs_ids))
 if (len(only_liked_songs) > 0):
     print("Songs that are liked but not in the playlist")
